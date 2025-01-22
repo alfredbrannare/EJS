@@ -35,9 +35,15 @@ function startApp(api, nav) {
     try {
       const linkData = await nav.navLinks();
       const movieData = await api.fetchMovie(req.params.movieId);
+
+      if (!movieData) {
+        return res.status(404).render('pages/404');
+      }
+
       res.render('pages/movie', { movieData, ...linkData });
     } catch (error) {
-      res.status(500).render('pages/error');
+      console.error('Error fetching data:', error);
+      res.status(404).render('pages/404');
     }
   });
 
@@ -45,7 +51,7 @@ function startApp(api, nav) {
 
   app.use((req, res) => {
     const linkData = nav.navLinks();
-    res.status(404).render('pages/error');
+    res.status(404).render('pages/404');
   });
 
   return app;
