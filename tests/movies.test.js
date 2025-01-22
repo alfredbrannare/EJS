@@ -5,7 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import startApp from '../src/js/server/app.js';
 
-test('Home page shows list of movies and navigation links', async () => {
+test('Movie page shows list of movies and navigation links', async () => {
   const app = startApp(
     {
       fetchMovie: async () => ({
@@ -44,7 +44,7 @@ test('Home page shows list of movies and navigation links', async () => {
     }
   );
 
-  const response = await request(app).get('/').expect('Content-Type', /html/).expect(200);
+  const response = await request(app).get('/movies').expect('Content-Type', /html/).expect(200);
 
   expect(response.text).toMatch('Pulp Fiction');
   expect(response.text).toMatch('Fire Walk With Me');
