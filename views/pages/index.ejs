@@ -6,7 +6,7 @@
         <li class="movie__list-item">
           <a href="/movie/<%= item.id %>">
             <article class="movie-card">
-              <img src="<%= item.image.url %>" class="movie-card__image" alt="Omslag för filmen <%= item.title %>">
+              <img src="<%= item.image ? item.image.url : '' %>" class="movie-card__image" alt="Omslag för filmen <%= item.title %>">
               <h3 class="movie-card__title"><%= item.title %></h3>
             </article>
           </a>

@@ -13,9 +13,6 @@ function startApp(api, nav) {
       const linkData = await nav.navLinks();
       const moviesData = await api.fetchAllMovies();
 
-      console.log('Movies Data:', moviesData);
-      console.log('Link Data:', linkData);
-
       if (!moviesData || !linkData) {
         console.error('Data is missing or malformed');
         return res.status(500).send('Movies or Links data is missing or malformed');
