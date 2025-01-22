@@ -507,6 +507,9 @@
   max-width: 17rem;
   flex-shrink: 1;
 }
+.movies li a {
+  text-decoration: none;
+}
 .movies li .movie-card {
   background-color: #fff;
   min-width: 15rem;

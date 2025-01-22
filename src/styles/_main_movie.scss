@@ -33,6 +33,10 @@
     max-width: 17rem;
     flex-shrink: 1;
 
+    a {
+      text-decoration: none;
+    }
+
     .movie-card {
       background-color: white;
       min-width: 15rem;
