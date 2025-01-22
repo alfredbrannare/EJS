@@ -32,16 +32,20 @@ function startApp(api, nav) {
   });
 
   app.get('/movie/:movieId', async (req, res) => {
-    const linkData = await nav.navLinks();
-    const movieData = await api.fetchMovie(req.params.movieId);
-    res.render('pages/movie', { movieData, ...linkData });
+    try {
+      const linkData = await nav.navLinks();
+      const movieData = await api.fetchMovie(req.params.movieId);
+      res.render('pages/movie', { movieData, ...linkData });
+    } catch (error) {
+      res.status(500).render('pages/error');
+    }
   });
 
   app.use('/static', express.static('./static'));
 
   app.use((req, res) => {
     const linkData = nav.navLinks();
-    res.status(404).render('pages/error', { message: 'Page not found', ...linkData });
+    res.status(404).render('pages/error');
   });
 
   return app;
