@@ -1,21 +1,38 @@
 import { expect, test } from '@jest/globals';
 import request from 'supertest';
-import ejs from 'ejs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import startApp from '../src/js/server/app.js';
 
-test('Movie page shows list of movies and navigation links', async () => {
+test('Individual movie page shows the correct movie title and navigation links', async () => {
   const app = startApp(
     {
-      fetchMovie: async () => ({
-        id: 1,
-        title: 'Pulp Fiction',
-      }),
+      fetchMovie: async (id) => {
+        if (id === '1') {
+          return {
+            id: 1,
+            title: 'Pulp Fiction',
+            intro: 'A movie about stuff',
+            image: { url: 'https://example.com/pulpfiction.jpg' },
+          };
+        } else if (id === '2') {
+          return {
+            id: 2,
+            title: 'Fire Walk With Me',
+            intro: 'A movie about other stuff',
+            image: { url: 'https://example.com/firewalk.jpg' },
+          };
+        } else if (id === '3') {
+          return {
+            id: 3,
+            title: 'Isle of Dogs',
+            intro: 'A movie about dogs',
+            image: { url: 'https://example.com/isleofdogs.jpg' },
+          };
+        }
+      },
       fetchAllMovies: async () => [
-        { id: 1, title: 'Pulp Fiction', image: { url: 'https://example.com/pulpfiction.jpg' } },
-        { id: 2, title: 'Fire Walk With Me', image: { url: 'https://example.com/firewalk.jpg' } },
-        { id: 3, title: 'Isle of Dogs', image: { url: 'https://example.com/isleofdogs.jpg' } },
+        { id: 1, title: 'Pulp Fiction' },
+        { id: 2, title: 'Fire Walk With Me' },
+        { id: 3, title: 'Isle of Dogs' },
       ],
     },
     {
@@ -44,11 +61,9 @@ test('Movie page shows list of movies and navigation links', async () => {
     }
   );
 
-  const response = await request(app).get('/movies').expect('Content-Type', /html/).expect(200);
+  const response = await request(app).get('/movie/1').expect('Content-Type', /html/).expect(200);
 
   expect(response.text).toMatch('Pulp Fiction');
-  expect(response.text).toMatch('Fire Walk With Me');
-  expect(response.text).toMatch('Isle of Dogs');
   expect(response.text).toMatch('BILJETTER');
   expect(response.text).toMatch('EVENEMANG');
   expect(response.text).toMatch('FILMER');
